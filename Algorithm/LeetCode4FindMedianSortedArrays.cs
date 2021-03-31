@@ -27,7 +27,7 @@ namespace Algorithm
             }
             if (c == 0)
             {
-               return Math.Min(nums1[i], nums2[j]);
+                return Math.Min(nums1[i], nums2[j]);
             }
             else if (nums1[i] > nums2[j])
             {
@@ -36,6 +36,36 @@ namespace Algorithm
             else
             {
                 return Find(nums1, nums2, ++i, j, --c);
+            }
+        }
+
+        // Find() 基础上进行二分查找，加快速度。
+        private static int Find2(int[] nums1, int[] nums2, int i, int j, int c)
+        {
+            if (i >= nums1.Length)
+            {
+                return nums2[j + c];
+            }
+            if (j >= nums2.Length)
+            {
+                return nums1[i + c];
+            }
+            if (c == 0)
+            {
+                return Math.Min(nums1[i], nums2[j]);
+            }
+
+            int ti = i + c / 2;
+            int mid1 = ti < nums1.Length ? nums1[ti] : int.MaxValue;
+            int tj = j + c / 2;
+            int mid2 = tj < nums2.Length ? nums2[tj] : int.MaxValue;
+            if (mid1 < mid2)
+            {
+                return Find2(nums1, nums2, ti, j, c - c / 2);
+            }
+            else
+            {
+                return Find2(nums1, nums2, i, tj, c - c / 2);
             }
         }
     }
